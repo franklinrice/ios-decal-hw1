@@ -11,16 +11,18 @@ import UIKit
 
 class Foo {
     
-    var wordA : String!
-    var wordB : String!
+    var wordA : String?
+    var wordB : String?
     
     init (words: [String?]) {
-        wordA = words[0]?
-        wordB = words[1]?
+        wordA = words[0]
+        wordB = words[1]
     }
     
 //: [EXPLAIN YOUR ANSWER TO Q1 HERE]
-    
+//: The ! after the type declarations on lines 14 and 15 require that wordA and wordB always be strings
+//: (as opposed to nil). However, the method of unwrapping the optionals on lines 17-19 with the ? implies
+//: that wordA and wordB can both be nil, which violates the previous statement and an error at compile time.
 
     
 //: ## Q2: Variable Types and Function Types
@@ -30,24 +32,26 @@ class Foo {
         let reversedWords = words.map() {String($0.characters.reverse())}
         var numElements = words.count
         
-        for let i = 0; i < numElements; i++ {
+        for var i = 0; i < numElements; i++ {
             if words[i] != reversedWords[i] {
                 return false
             }
         }
         
-        return nil
+        return true
     }
     
 //: [EXPLAIN YOUR ANSWER TO Q2 HERE]
-    
+//: The let type is reserved for variables that will not be changed. Because we (by the definition of the for loop) will be incrementing i,
+//: it will be changing and should be instantiated as a var instead. Also, because the Boolean return type is mandatory, we must return true
+//: as an alternative to false, not nil (this is also the logically correct thing to do).
     
     
 //: ## Q3: More functions, and object initialization
 //: The method should be returning true or false -- what's wrong?
 //: Are we initializing the dictionary correctly?
     func isAnagram(wordA: String, wordB: String) -> Bool? {
-        var countLetters : [Character : Int]
+        var countLetters = [Character : Int]()
         var lenA = wordA.characters.count
         var lenB = wordB.characters.count
         
@@ -81,12 +85,14 @@ class Foo {
             }
         }
         
-        return nil
+        return true
     }
 }
 
 //: [EXPLAIN YOUR ANSWER TO Q3 HERE]
-
+//: The syntax on the dictionary instantiation was incorrect. Also, as mentioned in Q2, the alternative to
+//: false is true, not nil (and a return value of nil will not be tolerated by the compiler if the return
+//: type of Bool has an ! after it, marking it as mandatorily non-nil, although this is not the case here).
 
 //: **Do not** change anything below.
 //: You should be able to call the methods as is.
